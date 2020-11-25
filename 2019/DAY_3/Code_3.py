@@ -3,34 +3,33 @@ a_wire = file.readline()
 b_wire = file.readline()
 a_wire = a_wire.split(",")
 b_wire = b_wire.split(",")
-a_wire_list = []
-b_wire_list = []
+a_wire_list = [[0, 0]]
+b_wire_list = [[0, 0]]
 cross_list = []
+
 x = 0
 y = 0
 
 for command_nm in range(len(a_wire)):
     command = a_wire[command_nm]
     if command[0] == "U":
-        for i in range(int(command[1:])):
-            x += 1
-            coor = [x, y]
-            a_wire_list.append(coor)
+        y += int(command[1:])
+        coor = [x, y]
+        a_wire_list.append(coor)
     elif command[0] == "D":
-        for i in range(int(command[1:])):
-            x -= 1
-            coor = [x, y]
-            a_wire_list.append(coor)
+        y -= int(command[1:])
+        coor = [x, y]
+        a_wire_list.append(coor)
     elif command[0] == "L":
-        for i in range(int(command[1:])):
-            y -= 1
-            coor = [x, y]
-            a_wire_list.append(coor)
+        x -= int(command[1:])
+        coor = [x, y]
+        a_wire_list.append(coor)
     elif command[0] == "R":
-        for i in range(int(command[1:])):
-            y += 1
-            coor = [x, y]
-            a_wire_list.append(coor)
+        x += int(command[1:])
+        coor = [x, y]
+        a_wire_list.append(coor)
+
+print(len(a_wire_list), a_wire_list)
 
 x = 0
 y = 0
@@ -38,46 +37,64 @@ y = 0
 for command_nm in range(len(b_wire)):
     command = b_wire[command_nm]
     if command[0] == "U":
-        for i in range(int(command[1:])):
-            x += 1
-            coor = [x, y]
-            b_wire_list.append(coor)
+        y += int(command[1:])
+        coor = [x, y]
+        b_wire_list.append(coor)
     elif command[0] == "D":
-        for i in range(int(command[1:])):
-            x -= 1
-            coor = [x, y]
-            b_wire_list.append(coor)
+        y -= int(command[1:])
+        coor = [x, y]
+        b_wire_list.append(coor)
     elif command[0] == "L":
-        for i in range(int(command[1:])):
-            y -= 1
-            coor = [x, y]
-            a_wire_list.append(coor)
+        x -= int(command[1:])
+        coor = [x, y]
+        b_wire_list.append(coor)
     elif command[0] == "R":
-        for i in range(int(command[1:])):
-            y += 1
-            coor = [x, y]
-            b_wire_list.append(coor)
+        x += int(command[1:])
+        coor = [x, y]
+        b_wire_list.append(coor)
+
+print(len(b_wire_list), b_wire_list)
+#x0y_a = False; False is verandering op x-as; True is verandering op de y-as; Voor wire A
+#x0y_b = False; False is verandering op x-as; True is verandering op de y-as; Voor wire B
+
+for a in range(len(a_wire_list)-1):
+    seg_wire_a = [a_wire_list[a], a_wire_list[a+1]]
+
+    if seg_wire_a[0][0] == seg_wire_a[1][0]: #loopt paralel aan y-as
+        x0y_a = True
+    else: #loopt paralel aan x-as
+        x0y_a = False
 
 
-if a_wire_list > b_wire_list:
-    for i in range(len(a_wire_list)):
-        if a_wire_list[i] in b_wire_list:
-            cross_list.append(a_wire_list[i])
-else:
-    for i in range(len(b_wire_list)):
-        if b_wire_list[i] in a_wire_list:
-            cross_list.append(b_wire_list[i])
-print(len(cross_list))
-print(sorted(cross_list))
-smallest = [10000, 1000]
+    for b in range(len(b_wire_list)-1):
+        seg_wire_b = [b_wire_list[b], b_wire_list[b+1]]
+        if seg_wire_b[0][0] == seg_wire_b[1][0]: #loopt paralel aan y-as
+            x0y_b = True
+        else: #loopt paralel aan x-as
+            x0y_b = False
 
-for i in range(len(cross_list)):
-    if cross_list[i][0] < 0:
-        cross_list[i][0] = abs(cross_list[i][0])
-    if cross_list[i][1] < 0:
-        cross_list[i][1] = abs(cross_list[i][1])
-    if sum(cross_list[i]) < sum(smallest):
-        smallest[0] = cross_list[i][0]
-        smallest[1] = cross_list[i][1]
+
+        if x0y_a == x0y_b:
+            continue
+        # print(seg_wire_a, seg_wire_b)
+        if x0y_a: #Lijn a loopt paralel aan y-as
+            if min(seg_wire_a[0][1], seg_wire_a[1][1]) < seg_wire_b[0][1] < max(seg_wire_a[0][1], seg_wire_a[1][1]): #Als de y van het segment van b tussen de y's van segment a
+                if min(seg_wire_b[0][0], seg_wire_b[1][0]) < seg_wire_a[0][0] < max(seg_wire_b[0][0], seg_wire_b[1][0]):
+                    cross_list.append([seg_wire_a[0][0], seg_wire_b[0][1]])
+                    # print(f"[{seg_wire_a[0][0], seg_wire_b[0][1]}]::: {seg_wire_a}::: {seg_wire_b}")
+        else:
+            if min(seg_wire_b[0][1], seg_wire_b[1][1]) < seg_wire_a[0][1] < max(seg_wire_b[0][1], seg_wire_b[1][1]):
+                if min(seg_wire_a[0][0], seg_wire_a[1][0]) < seg_wire_b[0][0] < max(seg_wire_a[0][0], seg_wire_a[1][0]):
+                    cross_list.append([seg_wire_b[0][0], seg_wire_a[0][1]])
+                    # print(f"[{seg_wire_b[0][0], seg_wire_a[0][1]}]::: {seg_wire_a}::: {seg_wire_b}")
+
+cross_list.pop(0)
 print(cross_list)
-print(smallest)
+kleinste = -1
+for x in range(len(cross_list)):
+    getal = abs(cross_list[x][0]) + abs(cross_list[x][1])
+    if kleinste == -1:
+        kleinste = getal
+    if kleinste > getal:
+        kleinste = getal
+print(kleinste)
