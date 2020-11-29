@@ -2,62 +2,35 @@ file = open("PuzzleInput_5.txt", "r")
 line = file.readline()
 intcode = line.split(",")
 
-def Computer(intcode):
 
-    memory = intcode
+memory = []
+instruction_pointer = 0
 
-    for x in range(len(memory)):
-        memory[x] = int(memory[x])
-
-    global instruction_pointer
-    instruction_pointer = 0
+for x in range(len(intcode)):
+    memory.append(int(intcode[x]))
 
 
-    def AdvancePointer(amount):
-        global instruction_pointer
-        instruction_pointer += amount
-
-    def GetMode(code):
-        return int(str(code)[:-2])
-
-    def GetOpcode(code):
-        return int(str(code)[-2:])
+while True:
+    opcode = memory[instruction_pointer]
 
 
-    while True:
-        opcode = memory[instruction_pointer]
+    #-------------------OPERATIONS---------------------#
 
-        #-------------------OPERATIONS---------------------#
+    # END
+    if opcode == 99:
+        break
+    parameters_1 = memory[instruction_pointer + 1]
+    parameters_2 = memory[instruction_pointer + 2]
+    adrress = memory[instruction_pointer + 3]
 
-        # END
-        if GetOpcode(opcode) == 99:
-            break
+    # ADD instruction
+    if opcode == 1:
+        memory[adrress] = memory[parameters_1] + memory[parameters_2]
+        instruction_pointer += 4
 
-        # ADD instruction
-        elif GetOpcode(opcode) == 1:
-            parameter_1 =
-            parameter_2 =
-            parameter_3 = memory[instruction_pointer + 3]
-            memory[parameter_3] = memory[parameter_1] + memory[parameter_2]
-            AdvancePointer(4)
+    # MULTIPLY instruction
+    elif opcode == 2:
+        memory[adrress] = memory[parameters_1] * memory[parameters_2]
+        instruction_pointer += 4
 
-        # MULTIPLY instruction
-        elif GetOpcode(opcode) == 2:
-            parameter_1 =
-            parameter_2 =
-            parameter_3 = memory[instruction_pointer + 3]
-            memory[parameter_3] = memory[parameter_1] * memory[parameter_2]
-            AdvancePointer(4)
-
-        # WRITE value
-        elif GetOpcode(opcode) == 3:
-            memory[parameter_1] = int(input("Geef input:"))
-            AdvancePointer(2)
-
-        # READ value
-        elif GetOpcode(opcode) == 4:
-            print(memory[parameter_1])
-            AdvancePointer(2)
-
-
-Computer(intcode)
+print(memory[0])
