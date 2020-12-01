@@ -56,13 +56,7 @@ while True:
         parameters_2 = memory[instruction_pointer + 2]
         adrress = memory[instruction_pointer + 3]
 
-    elif len(str(instruction)) == 2:
-        opcode = instruction
-        parameters_1 = memory[instruction_pointer + 1]
-        parameters_2 = memory[instruction_pointer + 2]
-        adrress = memory[instruction_pointer + 3]
-
-    elif len(str(instruction)) == 1:
+    elif len(str(instruction)) <= 2:
         opcode = instruction
         parameters_1 = memory[instruction_pointer + 1]
         parameters_2 = memory[instruction_pointer + 2]
@@ -98,19 +92,20 @@ while True:
 
     #JUMP-IF-TRUE
     elif opcode == 5:
-        if parameters_1 != 0:
-            instruction_pointer == parameters_2
         instruction_pointer += 3
+        if memory[parameters_1] != 0:
+            instruction_pointer = memory[parameters_2]
 
     #JUMP-IF-FALSE
     elif opcode == 6:
-        if parameters_1 == 0:
-            instruction_pointer == parameters_2
         instruction_pointer += 3
+        if memory[parameters_1] == 0:
+            instruction_pointer = memory[parameters_2]
+
 
     #LESS THAN
     elif opcode == 7:
-        if parameters_1 < parameters_2:
+        if memory[parameters_1] < memory[parameters_2]:
             memory[adrress] = 1
         else:
             memory[adrress] = 0
@@ -118,7 +113,7 @@ while True:
 
     #EQUALS
     elif opcode == 8:
-        if parameters_1 == parameters_2:
+        if memory[parameters_1] == memory[parameters_2]:
             memory[adrress] = 1
         else:
             memory[adrress] = 0

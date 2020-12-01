@@ -14,4 +14,3 @@ for x in range(input[0], input[1]):
                     tel += 1
                     al_een_dubbel = True
 print(tel)
-
