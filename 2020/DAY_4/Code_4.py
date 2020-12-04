@@ -68,5 +68,3 @@ for x in file.readlines():
             count += 1
             complete = False
 print(count)
-
-# not 247
