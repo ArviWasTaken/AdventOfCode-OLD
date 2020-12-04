@@ -27,6 +27,7 @@ for x in file.readlines():
             continue
         i = i.strip()
         i = i.split(":")
+
         if "byr" in i[0]:
             if 1920 <= int(i[1]) <= 2002:
                 byr_check = True
