@@ -53,7 +53,6 @@ def get_bags(bag):
 
 
 while True:
-    print(bags_check, count)
     if not bags_check:
         break
     else:
