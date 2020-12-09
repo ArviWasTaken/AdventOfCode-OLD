@@ -23,6 +23,8 @@ for x in range(25, len(dict)):
     if not check:
         invalid_number = dict[x]
 
+print(f"gedeelte 1:{invalid_number}")
+
 index_number = 0
 index_check = 0
 answer = []
@@ -45,5 +47,5 @@ while answer_fnd:
         index_check += 1
     index_number += 1
 
-print(max(answer) + min(answer))
+print(f"gedeelte 2:{max(answer) + min(answer)}")
 
