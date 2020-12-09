@@ -14,7 +14,7 @@ def read():
     file.close()
     return dict
 
-def ass(dict):
+def run(dict):
     pointer = 0
     accumaltor = 0
     while True:
@@ -50,7 +50,7 @@ for x in dict.keys():
     elif op[0] == "nop":
         op[0] = "jmp"
 
-    test = ass(dict)
+    test = run(dict)
     if test[1]:
         print(test[0])
 
