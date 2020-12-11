@@ -1,4 +1,4 @@
-file = open("PuzzleInput_11_1.txt", "r")
+file = open("PuzzleInput_11.txt", "r")
 
 x = 0
 y = 0
