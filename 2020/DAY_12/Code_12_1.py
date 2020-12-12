@@ -7,7 +7,6 @@ d = [0, 1, 2, 3]
 for com in file.readlines():
     com = com.strip()
     value = int(com[1:])
-    print(value, type(value))
     if com[:1] == "N":
         y += value
     elif com[:1] == "S":

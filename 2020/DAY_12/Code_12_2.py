@@ -4,8 +4,6 @@ x = 10
 y = 1
 x_b = 0
 y_b = 0
-direction = 1
-d = [0, 1, 2, 3]
 for com in file.readlines():
     com = com.strip()
     value = int(com[1:])
@@ -22,26 +20,10 @@ for com in file.readlines():
             x_b += x
             y_b += y
     elif com[:1] == "L":
-        for _ in range(value//90):
-            if direction == 0:
-                direction = 3
-            elif direction == 1:
-                direction = 0
-            elif direction == 2:
-                direction = 1
-            elif direction == 3:
-                direction = 2
+        for _ in range(value // 90):
             x, y = y * -1, x
     elif com[:1] == "R":
         for _ in range(value // 90):
-            if direction == 0:
-                direction = 1
-            elif direction == 1:
-                direction = 2
-            elif direction == 2:
-                direction = 3
-            elif direction == 3:
-                direction = 0
             x, y = y, x * -1
 
 
