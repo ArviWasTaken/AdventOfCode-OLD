@@ -36,8 +36,8 @@ antwoord = 0
 for x in busses:
     if x != "x":
         x = int(x)
-        while (antwoord + index) % x !=0:         #WAAROM DE FUCK WERKT DIT
-            antwoord += factor                    #Keihard over genomen van https://github.com/UnderKoen/AdventOfCode waarmee ik in een discord call zat. ik snap dit wel maar had het nooit zelf bedacht.
+        while (antwoord + index) % x != 0:         #WAAROM DE FUCK WERKT DIT
+            antwoord += factor                     #Keihard over genomen van https://github.com/UnderKoen/AdventOfCode waarmee ik in een discord call zat. ik snap dit wel maar had het nooit zelf bedacht.
         factor *= x
     index += 1
 
