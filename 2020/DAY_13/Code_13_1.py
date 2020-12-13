@@ -2,8 +2,6 @@ file = open("PuzzleInput_13.txt", "r")
 
 file.readline()
 
-
-
 busses = file.readline()
 busses = busses.strip()
 busses = busses.split(",")
