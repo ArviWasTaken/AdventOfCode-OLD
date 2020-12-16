@@ -17,9 +17,6 @@ for line in file.readlines():
                 range_str[indexz] = int(range_str[indexz])
 
         ranges[line[0]] = line[1]
-        print(line)
-    elif counter == 23:
-        print("Your ticket", line)
     elif counter >= 26:
         line = line.split(",")
         for ind in range(len(line)):
