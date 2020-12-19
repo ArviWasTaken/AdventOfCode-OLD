@@ -1,7 +1,4 @@
 import re
-import time
-start_time = time.time()
-
 file = open("PuzzleInput_19.txt", "r")
 
 dict = {}
