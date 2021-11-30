@@ -2,4 +2,5 @@
 
 My code for the https://adventofcode.com/ challenge
 
-But only part 2 because I work in the same file and expand on the code of part 1
+* year 2019 and 2020 are in python
+* year 2021 in java
