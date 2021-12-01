@@ -5,6 +5,7 @@ import nl.arviwastaken.adventofcode.utils.InputUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day01 extends Solution<List<Integer>> {
 
@@ -52,13 +53,8 @@ public class Day01 extends Solution<List<Integer>> {
 
     @Override
     public List<Integer> prepareInput() {
-        List<String> input = InputUtil.getInput("2021", "1");
-
-        List<Integer> output = new ArrayList<>();
-        for (String s : input
-        ) {
-            output.add(Integer.parseInt(s));
-        }
+        List<String> input = InputUtil.getInput("2021", "1", false);
+        List<Integer> output = input.stream().map(Integer::parseInt).collect(Collectors.toList());
 
         return output;
     }

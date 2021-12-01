@@ -14,7 +14,6 @@ public abstract class Solution<T>{
              solution.run();
          }
          System.exit(0);
-
      }
 
     public abstract void run();
