@@ -1,6 +1,6 @@
 package nl.arviwastaken.adventofcode;
 
-public abstract class Solution {
+public abstract class Solution<T>{
 
      public static void main(String[] args) throws Exception {
          String clsN = System.getProperty("sun.java.command");
@@ -19,11 +19,11 @@ public abstract class Solution {
 
     public abstract void run();
 
-    public abstract String part1(Object input);
+    public abstract String part1(T input);
 
-    public abstract String part2(Object input);
+    public abstract String part2(T input);
 
-    public abstract Object prepareInput();
+    public abstract T prepareInput();
 
 
 }
