@@ -19,8 +19,8 @@ public class Day03 extends Solution<List<String>> {
 
     @Override
     public String part1(List<String> input) {
-        List<Integer> epsilon1 = new ArrayList<>() ;
-        List<Integer> epsilon0 = new ArrayList<>() ;
+        List<Integer> epsilon1 = new ArrayList<>();
+        List<Integer> epsilon0 = new ArrayList<>();
 
         for (int i = 0; i < input.get(0).length(); i++) {
             epsilon0.add(0);
@@ -32,11 +32,11 @@ public class Day03 extends Solution<List<String>> {
             for (int j = 0; j < s.length(); j++) {
                 if (s.charAt(j) == '1') {
                     int epsilon = epsilon1.get(j);
-                    epsilon ++;
+                    epsilon++;
                     epsilon1.set(j, epsilon);
                 } else {
                     int epsilon = epsilon0.get(j);
-                    epsilon ++;
+                    epsilon++;
                     epsilon0.set(j, epsilon);
                 }
             }
@@ -61,18 +61,14 @@ public class Day03 extends Solution<List<String>> {
 
     @Override
     public String part2(List<String> input) {
-
-
         List<String> oxygen = new ArrayList<>(input);
         List<String> co2 = new ArrayList<>(input);
 
-        System.out.println(oxygen.size() + " size " + co2.size());
-
-        A :for (int i = 0; i < oxygen.get(0).length(); i++) {
+        for (int i = 0; i < oxygen.get(0).length(); i++) {
             Iterator<String> oxgeni = oxygen.iterator();
 
-            List<Integer> oxygenpositionCommon1Counter = new ArrayList<>() ;
-            List<Integer> oxygenpositionCommon0Counter = new ArrayList<>() ;
+            List<Integer> oxygenpositionCommon1Counter = new ArrayList<>();
+            List<Integer> oxygenpositionCommon0Counter = new ArrayList<>();
 
             for (int j = 0; j < oxygen.get(0).length(); j++) {
                 oxygenpositionCommon0Counter.add(0);
@@ -84,11 +80,11 @@ public class Day03 extends Solution<List<String>> {
                 for (int z = 0; z < s.length(); z++) {
                     if (s.charAt(z) == '1') {
                         int epsilon = oxygenpositionCommon1Counter.get(z);
-                        epsilon ++;
+                        epsilon++;
                         oxygenpositionCommon1Counter.set(z, epsilon);
                     } else {
                         int epsilon = oxygenpositionCommon0Counter.get(z);
-                        epsilon ++;
+                        epsilon++;
                         oxygenpositionCommon0Counter.set(z, epsilon);
                     }
                 }
@@ -98,14 +94,11 @@ public class Day03 extends Solution<List<String>> {
                 while (oxgeni.hasNext()) {
                     String s = oxgeni.next();
 
-                    System.out.println(s + " index: " + i);
-
                     if (oxygen.size() == 1) {
                         break;
                     }
-
                     if (s.charAt(i) != '1') {
-                      oxgeni.remove();
+                        oxgeni.remove();
                     }
                 }
 
@@ -113,12 +106,9 @@ public class Day03 extends Solution<List<String>> {
                 while (oxgeni.hasNext()) {
                     String s = oxgeni.next();
 
-                    System.out.println(s + " index: " + i);
-
                     if (oxygen.size() == 1) {
                         break;
                     }
-
                     if (s.charAt(i) == '1') {
                         oxgeni.remove();
                     }
@@ -127,8 +117,8 @@ public class Day03 extends Solution<List<String>> {
 
             Iterator<String> co2i = co2.iterator();
 
-            List<Integer> co2positionCommon1Counter = new ArrayList<>() ;
-            List<Integer> co2positionCommon0Counter = new ArrayList<>() ;
+            List<Integer> co2positionCommon1Counter = new ArrayList<>();
+            List<Integer> co2positionCommon0Counter = new ArrayList<>();
 
             for (int j = 0; j < co2.get(0).length(); j++) {
                 co2positionCommon0Counter.add(0);
@@ -140,11 +130,11 @@ public class Day03 extends Solution<List<String>> {
                 for (int z = 0; z < s.length(); z++) {
                     if (s.charAt(z) == '1') {
                         int epsilon = co2positionCommon1Counter.get(z);
-                        epsilon ++;
+                        epsilon++;
                         co2positionCommon1Counter.set(z, epsilon);
                     } else {
                         int epsilon = co2positionCommon0Counter.get(z);
-                        epsilon ++;
+                        epsilon++;
                         co2positionCommon0Counter.set(z, epsilon);
                     }
                 }
@@ -177,12 +167,8 @@ public class Day03 extends Solution<List<String>> {
             }
         }
 
-        System.out.println(oxygen.get(0) + " binar " + co2.get(0));
-
         int oxygendec = Integer.parseInt(oxygen.get(0), 2);
         int co2dec = Integer.parseInt(co2.get(0), 2);
-
-        System.out.println(oxygendec + " dec " + co2dec);
 
         return String.valueOf(oxygendec * co2dec);
     }
