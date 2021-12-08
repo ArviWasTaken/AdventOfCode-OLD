@@ -32,7 +32,7 @@ public class Day04 extends Solution<List<Board>> {
 
     @Override
     public List<Board> prepareInput() {
-        List<String> input = InputUtil.getInput("2021", "4", false);
+        List<String> input = InputUtil.getInput("2021", "4", true);
 
 
         for (String s : input.get(0).split(",")) {
@@ -44,73 +44,81 @@ public class Day04 extends Solution<List<Board>> {
         List<Board> output = new ArrayList<>();
         for (int j = 1; j < input.size(); j++) {
             List<String> board = new ArrayList<>();
-            for (int i = j + 1; i < j + 5; i++) {
+            for (int i = j + 1; i < j + 6; i++) {
                 board.add(input.get(i));
             }
             Board boardObject = new Board(board);
             output.add(boardObject);
             j += 5;
         }
-
+        System.out.println(output);
         return output;
     }
 }
 
 class Board {
-    Map<Map<Integer, Integer>, Integer> grid = new HashMap<>();
-    Integer columnCount;
-    Integer rowCount;
+    int[][] numbers = new int[5][5];
+    Boolean[][] checked = new Boolean[5][5];
 
     public Board(List<String> rows) {
-        rowCount = rows.size();
-        Integer curRow = rowCount;
+        Integer curRow = 4;
         for (String row : rows) {
             row = row.strip();
             row = row.replace("  ", ";");
             row = row.replace(" ", ";");
-
             String[] columns = row.split(";");
-            columnCount = columns.length;
-            System.out.println("row: " + row);
-            for (int i = 1; i < columnCount + 1; i++) {
-                Map<Integer, Integer> curPositon = new HashMap<>();
-                curPositon.put(i, curRow);
-                Integer value = Integer.parseInt(columns[i - 1]);
-
-                System.out.println(curPositon + " " + value);
-                grid.put(curPositon, value);
+            for (int i = 0; i < 5; i++) {
+                numbers[i][curRow] = Integer.parseInt(columns[i]);
+                checked[i][curRow] = false;
             }
             curRow--;
         }
     }
 
-    public Map<Integer, Integer> containsnumber(Integer number) {
-        return null;
+    public void checkNumber(Integer number) {
+        for (int y = 4; y > -1; y--) {
+            for (int x = 0; x < 5; x++) {
+                if (numbers[x][y] == number) {
+                    checked[x][y] = true;
+                }
+            }
+        }
     }
+
+//    public Boolean checkBingo() {
+//
+//    }
+//
+//    private Boolean checkRowBingo() {
+//
+//    }
+//
+//    private Boolean checkColumnBingo() {
+//
+//    }
+//
+//    public Integer getSumUnchecked() {
+//
+//    }
 
     @Override
     public String toString() {
-        return "Board{" +
-                "grid=" + grid +
-                ", columnCount=" + columnCount +
-                ", rowCount=" + rowCount +
+        StringBuilder gridString = new StringBuilder();
+        for (int y = 4; y > -1; y--) {
+            for (int x = 0; x < 5; x++) {
+                gridString
+                        .append(numbers[x][y])
+//                        .append(":")
+//                        .append(checked[x][y])
+                        .append(" ");
+            }
+            gridString.append("\n");
+        }
+
+
+
+        return "Board{\n" +
+                gridString +
                 '}';
-    }
-}
-
-class BingoNumber {
-    Integer number;
-    boolean checked = false;
-
-    public BingoNumber(Integer number) {
-        this.number = number;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void check() {
-        this.checked = true;
     }
 }
