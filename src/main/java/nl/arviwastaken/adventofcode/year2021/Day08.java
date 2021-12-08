@@ -75,7 +75,7 @@ public class Day08 extends Solution<List<Day08.Entry>> {
             if (counter.contains(2) && counter.contains(3)) {
                 if (!knowSegments.containsKey("top")) {
 
-                    knowSegments.put("put", );
+                    knowSegments.put("top", );
                 }
             }
 
