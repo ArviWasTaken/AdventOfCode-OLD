@@ -42,6 +42,7 @@ public class Day08 extends Solution<List<Day08.Entry>> {
         for (Entry e: input
         ) {
             // per entry sort signals into possible values base on number of sgements used
+//            key = length, value = a list of all signals
             Map<Integer, List<String>> segementsPerSignal = new HashMap<>();
             for (String s: e.output
             ) {
@@ -73,7 +74,7 @@ public class Day08 extends Solution<List<Day08.Entry>> {
 //
             if (counter.contains(2) && counter.contains(3)) {
                 if (!knowSegments.containsKey("top")) {
-// https://stackoverflow.com/questions/13429119/get-unique-values-from-arraylist-in-java/33735562 use this here
+
                     knowSegments.put("put", );
                 }
             }
