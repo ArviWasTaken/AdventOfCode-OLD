@@ -74,8 +74,8 @@ public class Day08 extends Solution<List<Day08.Entry>> {
 //
             if (counter.contains(2) && counter.contains(3)) {
                 if (!knowSegments.containsKey("top")) {
-
-                    knowSegments.put("top", );
+// https://stackoverflow.com/questions/13429119/get-unique-values-from-arraylist-in-java/33735562 use this here
+//                    knowSegments.put("put", );
                 }
             }
 
