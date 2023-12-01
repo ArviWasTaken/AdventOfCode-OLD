@@ -31,8 +31,10 @@ public class Day01 extends Solution<List<String>> {
                 }
             }
 
-            String firstLast = String.valueOf(numbers.charAt(0)) + numbers.charAt(numbers.length() -1);
-            total += Integer.parseInt(firstLast);
+            if (!numbers.isEmpty()) {
+                String firstLast = String.valueOf(numbers.charAt(0)) + numbers.charAt(numbers.length() -1);
+                total += Integer.parseInt(firstLast);
+            }
 
         }
         return String.valueOf(total);
