@@ -76,7 +76,6 @@ public class Day03 extends Solution<Character[][]> {
         }
 
         // per * check fi numbers are around
-
         for (int y = 0; y < y_len; y++) {
             for (int x = 0; x < x_len; x++) {
                 if (input[x][y] == '*') {
