@@ -54,7 +54,6 @@ public class Day04 extends Solution<Dictionary<Integer, List<List<Integer>>>> {
                     running += 1;
                 }
             }
-
             wins.put(i, new int[]{running, 1});
         }
 
@@ -69,7 +68,6 @@ public class Day04 extends Solution<Dictionary<Integer, List<List<Integer>>>> {
                 }
                 wins.put(keyOfChanged, valOfChanged);
             }
-
         }
 
         for (int i = 1; i <= wins.size(); i ++) {
