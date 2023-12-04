@@ -42,7 +42,7 @@ public class Day04 extends Solution<Dictionary<Integer, List<List<Integer>>>> {
     public String part2(Dictionary<Integer, List<List<Integer>>> input) {
         Integer total = 0;
 
-        // GameNum, [amountOfWins, copiesMade]
+        // GameNum, [amountOfWins, instances]
         Dictionary<Integer, int[]> wins = new Hashtable<>();
 
         for (int i = 1; i <= input.size(); i ++) {
@@ -63,9 +63,7 @@ public class Day04 extends Solution<Dictionary<Integer, List<List<Integer>>>> {
             for (int j = 1; j <= amountOfWins; j ++) {
                 int keyOfChanged = i + j;
                 int[] valOfChanged = wins.get(keyOfChanged);
-                for (int k = 0; k < val[1]; k++) {
-                    valOfChanged[1] += 1;
-                }
+                valOfChanged[1] += val[1];
                 wins.put(keyOfChanged, valOfChanged);
             }
         }
