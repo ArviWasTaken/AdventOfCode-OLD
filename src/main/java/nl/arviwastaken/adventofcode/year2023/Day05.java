@@ -101,28 +101,36 @@ public class Day05 extends Solution<List<String>> {
                 continue;
             }
 
-
             String[] nums = line.split(" ");
             long des = Long.parseLong(nums[0]);
             long source = Long.parseLong(nums[1]);
             long range = Long.parseLong(nums[2]);
 
+            List<long[]> remainders = new ArrayList<>();
+
             // For every entry in the current map we are see if it applies and then update the part
-            for (int i = 0; i < currentMap.size(); i++) {
+            Iterator<long[]> currentmapIterator = currentMap.iterator();
+            while (currentmapIterator.hasNext()) {
                 // find overlap in currentmap, if any
-                List<long[]> overlap = findOverlap(currentMap.get(i), source, des, range);
+                List<long[]> overlap = findOverlap(currentmapIterator.next(), source, des, range);
                 // if Overlap is found:
                 if (overlap != null) {
                     // put overlap part in futuremap
                     futureMap.add(overlap.get(0));
 
-                    // put non overlapping parts back into current map to be altered by another rule
-                    // might be unnecessary
+                    // put non overlapping parts into remainders list to be examined by another rule
                     for (int j = 1; j < overlap.size(); j++) {
-                        currentMap.add(overlap.get(j));
+                        remainders.add(overlap.get(j));
                     }
+
+                    // remove this range since it has been broken up
+                    currentmapIterator.remove();
                 }
             }
+
+            // After all items in the currentmap have been checked add remainders for next line
+            currentMap.addAll(remainders);
+
         }
         currentMap.addAll(futureMap);
 
