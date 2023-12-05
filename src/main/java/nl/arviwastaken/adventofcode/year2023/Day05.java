@@ -92,88 +92,39 @@ public String part2(List<String> input){
     for (int nr = 1; nr < input.size(); nr++) {
         String line = input.get(nr);
         // Skip all empty lines
-        if (!line.isBlank()) {
-            // If the first char is not a digit we are at the start of a new map
-            if (Character.isDigit(line.charAt(0))) {
-                String[] nums = line.split(" ");
-                long des = Long.parseLong(nums[0]);
-                long source = Long.parseLong(nums[1]);
-                long range = Long.parseLong(nums[2]);
+        if (!line.isBlank()) continue;
 
-                // For every entry in the current map we are gonna update our future map
-                for (int i = 0; i < currentMap.size(); i++) {
-                    // for each we want to see if they overlap if so get the range that overlaps and add that to futureMap
-                    // Four cases exists
-                    // 1st case if no overlap between sets:     ( top1 < bot2 || bot1 > top2 ) change nothing
-                    // 2nd case if top of set 1 overlaps set2:  ( bot1 < bot2 && top1 <= top2 ) change top of s1 to output of s2
-                    // 3rd case if bottom of set1 overlaps set2 ( bot1 >= bot2 && top1 > top2 ) change bot of s1 to out of s2
-                    // 4th case if set1 is contained in set2    ( bot1 >= bot2 && top1 <= top2 ) change mathing set of s1 to out of s2
-                    // 5th case if set2 is cvontained in set1   ( ...
-                    long s1_bot = currentMap.get(1)[0]; // Set bottom
-                    long s1_top = currentMap.get(1)[0] + currentMap.get(1)[1] - 1; // set top
-                    
-                    long s2_bot = source; // get bottom of update to mapping
-                    long s2_top = source + range - 1; // get top of update to mapping
+        // If the first char is not a digit we are at the start of a new alteration and we need to update the current mapping
+        if (!Character.isDigit(line.charAt(0))) {
+            currentMap.addAll(futureMap);
+            futureMap.clear();
+            continue;
+        }
 
-                    boolean hasUpdated = false;
-                    
-                    if (s1_bot < s2_bot && s1_top <= s2_top && s1_top > s2_bot) {
-                        hasUpdated = true;
-                        // top of current overlaps over a set of the update
-//                        long[] updatedPart = new long[]{s2_bot, s1_top - s2_bot + 1};
-                        long[] updatedPart =  new long[]{des, s1_top - s2_bot + 1};
-                        long[] oldPart = new long[]{s1_bot, s2_bot - s1_bot + 1};
+        String[] nums = line.split(" ");
+        long des = Long.parseLong(nums[0]);
+        long source = Long.parseLong(nums[1]);
+        long range = Long.parseLong(nums[2]);
 
-                        // add updated to future
-                        futureMap.add(updatedPart);
-                        
-                    } else if (s1_bot >= s2_bot && s1_top > s2_top && s1_bot < s2_top) {
-                        hasUpdated = true;
-                        // bot of current overlaps a set of the update
-//                        long[] updatedPart = new long[]{s1_bot, s2_top - s1_bot + 1};
-                        long[] updatedPart =  new long[]{des, s2_top - s1_bot + 1};
-                        long[] oldPart = new long[]{s2_top + 1, s1_top - s2_top};
-
-                        // add updated to future
-                        futureMap.add(updatedPart);
-                        
-                    } else if ( s1_bot <= s2_bot && s1_top >= s2_top) {
-                        hasUpdated = true;
-                        // a part of current is updated
-//                        long[] updatedPart = new long[]{s2_bot, s2_top - 1};
-                        long[] updatedPart =  new long[]{des, s2_top + 1};
-                        long[] oldPartBot = new long[]{s1_bot, s2_bot - s1_bot};
-                        long[] oldPartTop = new long[]{s2_top + 1, s1_top - s2_top};
-
-                        // add updated to future
-                        futureMap.add(updatedPart);
-                    } else if (s1_bot > s2_bot && s1_top < s2_top) {
-                        hasUpdated = true;
-                        // full current is updated
-//                        long[] updatedPart = new long[]{s1_bot, s1_top -1 };
-                        long[] updatedPart =  new long[]{des, s1_top + 1};
-                        // add updated to future
-                        futureMap.add(updatedPart);
-                    }
-
-                    if (hasUpdated) {
-
-                    }
-//                    long indexInRange = topvalue - currentMap[i];
-//
-//                    if (indexInRange >= 0 && indexInRange < range) {
-//                        futureMap[i] = des + ( range - indexInRange) - 1;
-//                    }
-
+        // For every entry in the current map we are see if it applies and then update the part
+        for (int i = 0; i < currentMap.size(); i++) {
+            // find overlap in currentmap, if any
+            List<long[]> overlap = findOverlap();
+            // if Overlap is found:
+            if (overlap != null) {
+                // put overlap part in futuremap
+                futureMap.add(overlap.get(0));
+                // put non overlapping parts back into current map to be altered by another rule
+                for (int j = 1; j < overlap.size(); j++) {
+                    currentMap.add(overlap.get(j));
                 }
-            } else {
-                // A whole map has been checked and we can move on to the next map so we update our mapping
-                currentMap.addAll(futureMap);
-                futureMap.clear();
             }
         }
     }
 
+    currentMap.addAll(futureMap);
+
+    // To find lowest cycle over every starting position of a range
     long low = futureMap.get(0)[0];
     for (long[] i : futureMap
     ) {
@@ -187,10 +138,74 @@ public String part2(List<String> input){
 @Override
 public List<String> prepareInput() {
     List<String> input = InputUtil.getInput("2023", "5", true);
-    String output;
     // Put the code to convert from a list with lines to usuable objects here
 
-
     return input;
+    }
+
+    private void findOverlap(long[] current, long startSource, long startDestination, long range) {
+        // for each we want to see if they overlap if so get the range that overlaps and add that to futureMap
+        // Four cases exists
+        // 1st case if no overlap between sets:     ( top1 < bot2 || bot1 > top2 ) change nothing
+        // 2nd case if top of set 1 overlaps set2:  ( bot1 < bot2 && top1 <= top2 ) change top of s1 to output of s2
+        // 3rd case if bottom of set1 overlaps set2 ( bot1 >= bot2 && top1 > top2 ) change bot of s1 to out of s2
+        // 4th case if set1 is contained in set2    ( bot1 >= bot2 && top1 <= top2 ) change mathing set of s1 to out of s2
+        // 5th case if set2 is cvontained in set1   ( ...
+        long s1_bot = currentMap.get(i)[0]; // Set bottom
+        long s1_top = currentMap.get(i)[0] + currentMap.get(i)[1] - 1; // set top
+
+        long s2_bot = source; // get bottom of update to mapping
+        long s2_top = source + range - 1; // get top of update to mapping
+
+        if (s1_bot < s2_bot && s1_top <= s2_top && s1_top > s2_bot) {
+            // top of current overlaps over a set of the update
+            // long[] updatedPart = new long[]{s2_bot, s1_top - s2_bot + 1};
+            long[] updatedPart =  new long[]{des, s1_top - s2_bot + 1};
+            long[] oldPart = new long[]{s1_bot, s2_bot - s1_bot + 1};
+
+            // add updated to future
+            futureMap.add(updatedPart);
+            currentMap.add(oldPart);
+
+        } else if (s1_bot >= s2_bot && s1_top > s2_top && s1_bot < s2_top) {
+            // bot of current overlaps a set of the update
+//                       long[] updatedPart = new long[]{s1_bot, s2_top - s1_bot + 1};
+            long[] updatedPart =  new long[]{des + s1_bot - s2_bot, s2_top - s1_bot + 1};
+            long[] oldPart = new long[]{s2_top + 1, s1_top - s2_top};
+
+            // add updated to future
+            futureMap.add(updatedPart);
+            currentMap.add(oldPart);
+
+        } else if ( s1_bot <= s2_bot && s1_top >= s2_top) {
+            // a part of current is updated
+//                       long[] updatedPart = new long[]{s2_bot, s2_top - 1};
+            long[] updatedPart =  new long[]{des, s2_top + 1};
+
+            long[] oldPartBot = new long[]{s1_bot, s2_bot - s1_bot};
+            long[] oldPartTop = new long[]{s2_top + 1, s1_top - s2_top};
+
+            // add old parts back to current
+            currentMap.add(oldPartBot);
+            currentMap.add(oldPartTop);
+
+            // add updated to future
+            futureMap.add(updatedPart);
+        } else if (s1_bot > s2_bot && s1_top < s2_top) {
+            // full current is updated
+//                        long[] updatedPart = new long[]{s1_bot, s1_top -1 };
+            long[] updatedPart =  new long[]{des + s1_bot - s2_bot, range};
+
+            // add old parts to current
+
+            // add updated to future
+            futureMap.add(updatedPart);
+        }
+
+//                    long indexInRange = topvalue - currentMap[i];
+//
+//                    if (indexInRange >= 0 && indexInRange < range) {
+//                        futureMap[i] = des + ( range - indexInRange) - 1;
+//                    }
     }
 }
