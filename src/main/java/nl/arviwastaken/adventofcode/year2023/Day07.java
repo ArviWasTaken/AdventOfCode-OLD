@@ -125,7 +125,6 @@ public class Day07 extends Solution<List<String>> {
         // calculate all winings
         int total = 0;
         for (int i = 0; i < inputLength; i++) {
-            System.out.printf("%s, %s %n", output.get(i).cards, output.get(i).type);
             int curHandWin = output.get(i).bid * (i + 1);
 
             total += curHandWin;
@@ -187,17 +186,8 @@ public class Day07 extends Solution<List<String>> {
 
             List<Character> maxes = occurences.keySet().stream().filter(k -> occurences.get(k) == maxPairAmount).collect(Collectors.toList());
 
-            String letterOrder = "1J23456789TQKA";
-            char highMax = '1';
 
-            for (Character c: maxes
-                 ) {
-                if (letterOrder.indexOf(c) > letterOrder.indexOf(highMax)) {
-                    highMax = c;
-                }
-            }
-
-            occurences.put(highMax, maxPairAmount + amountOfJ);
+            occurences.put(maxes.get(0), maxPairAmount + amountOfJ);
         }
 
         if (occurences.size() == 1) return Type.FIVEAKIND;
