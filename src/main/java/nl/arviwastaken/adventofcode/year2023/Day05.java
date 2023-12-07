@@ -163,7 +163,7 @@ public class Day05 extends Solution<List<String>> {
         long source_end = source_start + range - 1;
 
         // Check if there is any overlap
-        if (!(current_start <= source_end && source_start <= current_end)) return null;
+        if (current_start > source_end || source_start > current_end) return null;
 
         // Calculate overlap
         long overlap_start = Math.max(current_start, source_start);
